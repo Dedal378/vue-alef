@@ -72,11 +72,9 @@ img {
 }
 button {
   border: none;
-  background: #f2f2f2;
-  border-radius: 0;
-  outline: none;
   cursor: pointer;
   white-space: nowrap;
+  outline: none;
 }
 ul {
   margin: 0;
@@ -101,13 +99,8 @@ fieldset {
   justify-content: space-between;
   align-items: center;
 }
-
-.link_underline {
-  text-decoration-line: underline;
-}
 .button {
   display: flex;
   align-items: center;
   transition: all ease 0.3s;
-  cursor: pointer;
 }
