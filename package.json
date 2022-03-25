@@ -1,25 +1,26 @@
 {
   "name": "vue-alef",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.2.25"
+    "normalize.css": "^8.0.1",
+    "vue": "^3.2.31"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.2.0",
-    "@vue/cli-plugin-eslint": "~5.0.1",
+    "@vitejs/plugin-vue": "^2.2.4",
+    "@vue/cli-plugin-eslint": "~5.0.4",
     "@vue/eslint-config-prettier": "^7.0.0",
-    "autoprefixer": "^10.4.2",
-    "eslint": "^8.10.0",
+    "autoprefixer": "^10.4.4",
+    "eslint": "^8.11.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.5.0",
-    "postcss": "^8.4.6",
-    "prettier": "2.5.1",
+    "postcss": "^8.4.12",
+    "prettier": "2.6.0",
     "sass": "^1.49.9",
     "sass-loader": "^12.6.0",
     "vite": "^2.8.0"
