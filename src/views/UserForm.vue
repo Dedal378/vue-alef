@@ -6,7 +6,7 @@ import ButtonAdd from '../components/ButtonAdd.vue'
 import BaseCard from '../components/BaseCard.vue'
 import BaseRow from '../components/BaseRow.vue'
 import BaseTitle from '../components/BaseTitle.vue'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 
 const save = ref()
 const usersData = ref([])
