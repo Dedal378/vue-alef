@@ -9,7 +9,7 @@ import BaseTitle from '../components/BaseTitle.vue'
 import { reactive, ref } from 'vue'
 
 const save = ref(null)
-const plus = ref(true)
+const plusIcon = ref(true)
 const userName = ref('')
 const userAge = ref('')
 const childName = ref('')
@@ -38,15 +38,15 @@ const addItem = () => {
   }
 
   if (idx === 6){
-    plus.value = false
+    plusIcon.value = false
     save.value.firstElementChild.focus()
   }
 }
 const deleteItem = (el) => {
   usersData.value.splice(el, 1)
   idx--
-  if (plus.value === false) {
-    plus.value = true
+  if (plusIcon.value === false) {
+    plusIcon.value = true
   }
 }
 </script>
@@ -55,23 +55,18 @@ const deleteItem = (el) => {
   <BaseCard title="Персональные данные">
     <BaseInput v-model.trim.capitalize="userName" title="Имя" />
     <BaseInput v-model.number="userAge" title="Возраст" />
-
-    {{ userName }} {{ userAge }}
   </BaseCard>
 
   <BaseCard>
     <BaseRow>
       <BaseTitle title="Дети (макс. 5)" />
-      <ButtonAdd @click="addItem" :plus="plus" />
+      <ButtonAdd @click="addItem" :plusIcon="plusIcon" />
     </BaseRow>
 
     <BaseCard v-if="usersData.length">
       <BaseRow v-for="(userItem, idx) in usersData" :key="userItem.id">
         <BaseInput v-model.trim="childName" title="Имя" />
         <BaseInput v-model.number="childAge" title="Возраст" />
-
-        {{ childName }} {{ childAge }}
-
         <ButtonDelete @click="deleteItem(idx)" />
       </BaseRow>
 
