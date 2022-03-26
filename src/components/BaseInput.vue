@@ -8,8 +8,9 @@ const props = defineProps({
   modelValue: [String, Number],
   modelModifiers: { default: () => ({})}
 })
-defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
 
+// Add custom modifiers. Собственный модификатор - Увеличение первой буквы текста
 const emitValue = (e) => {
   let value = e.target.value
 
@@ -24,7 +25,7 @@ const emitValue = (e) => {
   <div class="input-block">
     <label>{{ title }}</label>
     <input
-      @input="$emit('update:modelValue', $event.target.value)"
+      @input="emitValue"
       :value="modelValue"
       class="input"
       type="text"
