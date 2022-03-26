@@ -6,6 +6,36 @@ import ButtonAdd from '../components/ButtonAdd.vue'
 import BaseCard from '../components/BaseCard.vue'
 import BaseRow from '../components/BaseRow.vue'
 import BaseTitle from '../components/BaseTitle.vue'
+import { ref } from 'vue'
+
+const save = ref()
+const usersData = ref([])
+const plus = ref(true)
+let idx = 1
+
+const addItem = () => {
+  if (idx <= 5) {
+    usersData.value.push(
+      {
+        id: idx++,
+        name: '',
+        age: '',
+      }
+    )
+  }
+
+  if (idx === 6){
+    plus.value = false
+    save.value.focus()
+  }
+}
+const deleteItem = (id) => {
+  usersData.value.splice(id, 1)
+  idx--
+  if (plus.value === false) {
+    plus.value = true
+  }
+}
 </script>
 
 <template>
@@ -13,26 +43,29 @@ import BaseTitle from '../components/BaseTitle.vue'
     <BaseInput title="Имя" />
     <BaseInput title="Возраст" />
   </BaseCard>
+
   <BaseCard>
     <BaseRow>
       <BaseTitle title="Дети (макс. 5)" />
-      <ButtonAdd />
+      <ButtonAdd @click="addItem" :plus="plus" />
     </BaseRow>
 
-    <BaseRow>
-      <BaseInput title="Имя" />
-      <BaseInput title="Возраст" />
-      <ButtonDelete />
-    </BaseRow>
+    <BaseCard v-if="usersData.length > 0">
+      <BaseRow v-for="(userItem, idx) in usersData" :key="userItem.id">
+        <BaseInput title="Имя" />
+        <BaseInput title="Возраст" />
+        <ButtonDelete @click="deleteItem(idx)" />
+      </BaseRow>
 
-    <BaseRow>
-      <BaseInput title="Имя" />
-      <BaseInput title="Возраст" />
-      <ButtonDelete />
-    </BaseRow>
-
-    <div class="button-save">
-      <ButtonSave />
-    </div>
+      <div ref="save" class="button-save">
+        <ButtonSave />
+      </div>
+    </BaseCard>
   </BaseCard>
 </template>
+
+<style lang="scss" scoped>
+.button-save {
+  margin-top: 20px;
+}
+</style>
