@@ -6,7 +6,7 @@ import ButtonAdd from '../components/ButtonAdd.vue'
 import BaseCard from '../components/BaseCard.vue'
 import BaseRow from '../components/BaseRow.vue'
 import BaseTitle from '../components/BaseTitle.vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const save = ref()
 const usersData = ref([])
@@ -29,8 +29,8 @@ const addItem = () => {
     save.value.focus()
   }
 }
-const deleteItem = (id) => {
-  usersData.value.splice(id, 1)
+const deleteItem = (el) => {
+  usersData.value.splice(el, 1)
   idx--
   if (plus.value === false) {
     plus.value = true
@@ -50,7 +50,7 @@ const deleteItem = (id) => {
       <ButtonAdd @click="addItem" :plus="plus" />
     </BaseRow>
 
-    <BaseCard v-if="usersData.length > 0">
+    <BaseCard v-if="usersData.length">
       <BaseRow v-for="(userItem, idx) in usersData" :key="userItem.id">
         <BaseInput title="Имя" />
         <BaseInput title="Возраст" />
