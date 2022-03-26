@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import UserForm from './views/UserForm.vue'
-import UserInfo from './views/UserInfo.vue'
+
+const UserForm = () => import('./views/UserForm.vue')
+const UserInfo = () => import('./views/UserInfo.vue')
 
 export default createRouter({
+  history: createWebHistory(),
   routes: [
-    { path: '/vue-alef/', component: UserForm },
+    { path: '/vue-alef/', component: UserForm, alias: '/' },
     { path: '/vue-alef/userinfo', component: UserInfo },
   ],
-  history: createWebHistory(),
 })

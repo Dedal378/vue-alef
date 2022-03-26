@@ -6,27 +6,40 @@ import ButtonAdd from '../components/ButtonAdd.vue'
 import BaseCard from '../components/BaseCard.vue'
 import BaseRow from '../components/BaseRow.vue'
 import BaseTitle from '../components/BaseTitle.vue'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 
-const save = ref()
-const usersData = ref([])
+const save = ref(null)
 const plus = ref(true)
-let idx = 1
+const userName = ref('')
+const userAge = ref('')
+const childName = ref('')
+const childAge = ref('')
+const usersData = ref([])
 
+const data = reactive({
+  name: userName.value,
+  age: userAge.value,
+  childName: childName.value,
+  childAge: childAge.value,
+})
+
+const setToLocalStorage = () => localStorage.setItem('family', JSON.stringify(data.value))
+const getFromLocalStorage = () => JSON.parse(localStorage.getItem('family'))
+
+let idx = 1
 const addItem = () => {
+  // if (usersData.value.length === idx ) {
+  //   usersData.value = usersData.value.push({ id: idx++, ...data.value })
+  // }
+
   if (idx <= 5) {
     usersData.value.push(
-      {
-        id: idx++,
-        name: '',
-        age: '',
-      }
-    )
+      { id: idx++, ...data })
   }
 
   if (idx === 6){
     plus.value = false
-    save.value.focus()
+    save.value.firstElementChild.focus()
   }
 }
 const deleteItem = (el) => {
@@ -40,8 +53,10 @@ const deleteItem = (el) => {
 
 <template>
   <BaseCard title="Персональные данные">
-    <BaseInput title="Имя" />
-    <BaseInput title="Возраст" />
+    <BaseInput v-model.trim.capitalize="userName" title="Имя" />
+    <BaseInput v-model.number="userAge" title="Возраст" />
+
+    {{ userName }} {{ userAge }}
   </BaseCard>
 
   <BaseCard>
@@ -52,8 +67,11 @@ const deleteItem = (el) => {
 
     <BaseCard v-if="usersData.length">
       <BaseRow v-for="(userItem, idx) in usersData" :key="userItem.id">
-        <BaseInput title="Имя" />
-        <BaseInput title="Возраст" />
+        <BaseInput v-model.trim="childName" title="Имя" />
+        <BaseInput v-model.number="childAge" title="Возраст" />
+
+        {{ childName }} {{ childAge }}
+
         <ButtonDelete @click="deleteItem(idx)" />
       </BaseRow>
 
