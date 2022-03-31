@@ -1,27 +1,37 @@
 <script setup>
 import BaseCard from '../components/BaseCard.vue'
+import { inject } from 'vue'
 
 defineProps({
-  name: {
+  userName: {
     type: String,
     required: false,
   },
-  children: {
-    type: [String, Array],
+  userAge: {
+    type: String,
+    required: false,
+  },
+  childName: {
+    type: String,
+    required: false,
+  },
+  childAge: {
+    type: String,
     required: false,
   },
 })
+
+const children = inject('userData')
 </script>
 
 <template>
   <BaseCard>
     <h3 class="user__title">Персональные данные</h3>
-    <h2 class="user__item">Василий, 30 лет</h2>
+    <h2 class="user__item">{{ userName }}, {{ userAge }} лет</h2>
 
     <div class="data">
       <h3 class="data__title">Дети</h3>
-      <h2 class="data__item">Петр, 10 лет</h2>
-      <h2 class="data__item">Василий, 14 лет</h2>
+      <h2 v-for="child in children" class="data__item">{{ children }}, {{ children }} лет</h2>
     </div>
   </BaseCard>
 </template>

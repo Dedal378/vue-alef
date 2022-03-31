@@ -62,6 +62,8 @@ a {
   }
 
   &:active {
+    font-weight: 500;
+    font-size: 16px;
     color: #111;
     box-shadow: inset 0px -2px 0px #01a7fd;
   }
@@ -108,4 +110,13 @@ fieldset {
   display: flex;
   align-items: center;
   transition: all ease 0.3s;
+}
+
+.link {
+  .active {
+    font-weight: 500;
+    font-size: 16px;
+    color: #111;
+    box-shadow: inset 0px -2px 0px #01a7fd;
+  }
 }

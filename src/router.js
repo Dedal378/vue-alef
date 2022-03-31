@@ -9,4 +9,6 @@ export default createRouter({
     { path: '/vue-alef/', component: UserForm, alias: '/' },
     { path: '/vue-alef/userinfo', component: UserInfo },
   ],
+  linkActiveClass: 'active',
+  linkExactActiveClass: 'active'
 })

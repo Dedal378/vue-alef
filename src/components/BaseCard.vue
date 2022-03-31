@@ -18,6 +18,7 @@ defineProps({
 
 <style lang="scss" scoped>
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
