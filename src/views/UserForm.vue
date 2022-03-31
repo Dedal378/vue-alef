@@ -1,5 +1,5 @@
 <script setup>
-import { ref, provide } from 'vue'
+import { ref, provide, reactive } from 'vue'
 import BaseInput from '../components/BaseInput.vue'
 import ButtonDelete from '../components/ButtonDelete.vue'
 import ButtonSave from '../components/ButtonSave.vue'
@@ -19,7 +19,10 @@ const addChildren = ref(false)
 const usersData = ref([])
 const noUserData = ref(false)
 
-const temporaryUsersData = ref([])
+const temporaryUsersData = reactive([])
+
+const emits = defineEmits('usersData', usersData)
+
 let idx = 1
 const addItem = () => {
   if (!userName.value || !userAge.value) {
@@ -34,12 +37,16 @@ const addItem = () => {
     addChildren.value = true
 
     if (addChildren && idx <= 5) {
-      temporaryUsersData.value.push({
+      temporaryUsersData.push({
         id: idx,
-        userName: userName.value,
-        userAge: userAge.value,
-        childName: childName.value,
-        childAge: childAge.value,
+        user: {
+          userName: userName.value,
+          userAge: userAge.value,
+        },
+        children: {
+          childName: childName.value,
+          childAge: childAge.value,
+        }
       })
 
       idx++
@@ -52,23 +59,24 @@ const addItem = () => {
   }
 }
 const saveItem = () => {
-  usersData.value = temporaryUsersData.value
+  usersData.value = [...temporaryUsersData]
+  emits('usersData', usersData.value)
 }
 const deleteItem = el => {
-  usersData.value.splice(el, 1)
+  temporaryUsersData.splice(el, 1)
+  childName.value.splice(el, 1)
+  childAge.value.splice(el, 1)
   idx--
   if (plusIcon.value === false) {
     plusIcon.value = true
   }
 }
-
-defineEmits('usersData', usersData)
 </script>
 
 <template>
   <BaseCard title="Персональные данные">
     <BaseInput title="Имя" v-model.trim.capitalize="userName" />
-    <BaseInput title="Возраст" v-model.number="userAge" />
+    <BaseInput title="Возраст" v-model="userAge" />
     <p class="toast danger" v-if="noUserData">Заполните форму, пожалуйста</p>
   </BaseCard>
 
@@ -81,7 +89,7 @@ defineEmits('usersData', usersData)
     <BaseCard v-if="addChildren">
       <BaseRow v-for="(userItem, idx) in temporaryUsersData" :key="userItem.id">
         <BaseInput v-model.trim.lazy.capitalize="childName[idx]" title="Имя" />
-        <BaseInput v-model.number.lazy="childAge[idx]" title="Возраст" />
+        <BaseInput v-model.lazy="childAge[idx]" title="Возраст" />
         <ButtonDelete @click="deleteItem(idx)" />
       </BaseRow>
 

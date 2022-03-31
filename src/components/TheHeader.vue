@@ -16,8 +16,8 @@ import BaseList from './BaseList.vue'
     </div>
   </header>
 </template>
-<style lang="scss" scoped>
 
+<style lang="scss" scoped>
 .header {
   position: relative;
   top: 0;

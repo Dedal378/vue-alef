@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <a href="#">all rights reserved</a>
+    <a class="link" href="#">all rights reserved</a>
   </footer>
 </template>
 <style lang="scss" scoped>

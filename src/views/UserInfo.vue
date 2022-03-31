@@ -1,6 +1,5 @@
 <script setup>
 import BaseCard from '../components/BaseCard.vue'
-import { inject } from 'vue'
 
 defineProps({
   userName: {
@@ -19,9 +18,12 @@ defineProps({
     type: String,
     required: false,
   },
+  userData: {
+    type: Array,
+    required: true,
+  },
 })
 
-const children = inject('userData')
 </script>
 
 <template>
@@ -31,7 +33,7 @@ const children = inject('userData')
 
     <div class="data">
       <h3 class="data__title">Дети</h3>
-      <h2 v-for="child in children" class="data__item">{{ children }}, {{ children }} лет</h2>
+      <h2 v-for="child in userData" class="data__item">{{ child }}, {{ child }} лет</h2>
     </div>
   </BaseCard>
 </template>
