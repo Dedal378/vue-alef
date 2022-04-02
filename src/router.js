@@ -8,7 +8,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/vue-alef/', component: UserForm, name: 'form', alias: '/' },
-    { path: '/vue-alef/userinfo', component: UserInfo, name: 'preview', props: true },
+    { path: '/vue-alef/userinfo', component: UserInfo, name: 'preview' },
     { path: '/:notFound(.*)', component: Page404, name: 'page404' },
   ],
   linkActiveClass: 'active',

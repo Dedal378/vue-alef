@@ -1,39 +1,30 @@
 <script setup>
+import { useStore } from '../store.js'
 import BaseCard from '../components/BaseCard.vue'
 
-defineProps({
-  userName: {
-    type: String,
-    required: false,
-  },
-  userAge: {
-    type: String,
-    required: false,
-  },
-  childName: {
-    type: String,
-    required: false,
-  },
-  childAge: {
-    type: String,
-    required: false,
-  },
-  userData: {
-    type: Array,
-    required: true,
-  },
-})
-
+const store = useStore()
+const userName = store.getUserName
+const userAge = store.getUserAge
+const children = store.getChildren
 </script>
 
 <template>
-  <BaseCard>
+  <BaseCard v-if="!store.usersData.children.length">
+    <h3>Нет данных</h3>
+    <router-link class="link inline" :to="{name: 'form'}">
+      Вернуться к заполнению формы
+    </router-link>
+  </BaseCard>
+
+  <BaseCard v-else>
     <h3 class="user__title">Персональные данные</h3>
     <h2 class="user__item">{{ userName }}, {{ userAge }} лет</h2>
 
     <div class="data">
       <h3 class="data__title">Дети</h3>
-      <h2 v-for="child in userData" class="data__item">{{ child }}, {{ child }} лет</h2>
+      <h2 v-for="(child, i) in children" :key="child" class="data__item">
+        {{ child.childName[i] }}, {{ child.childAge[i] }} лет
+      </h2>
     </div>
   </BaseCard>
 </template>
@@ -60,5 +51,9 @@ defineProps({
     background: #f1f1f1;
     border-radius: 5px;
   }
+}
+
+.inline {
+  width: fit-content;
 }
 </style>

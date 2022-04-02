@@ -1,5 +1,6 @@
 <script setup>
-import { ref, provide, reactive } from 'vue'
+import { reactive, ref } from 'vue'
+import { useStore } from '../store.js'
 import BaseInput from '../components/BaseInput.vue'
 import ButtonDelete from '../components/ButtonDelete.vue'
 import ButtonSave from '../components/ButtonSave.vue'
@@ -8,65 +9,58 @@ import BaseCard from '../components/BaseCard.vue'
 import BaseRow from '../components/BaseRow.vue'
 import BaseTitle from '../components/BaseTitle.vue'
 
+const store = useStore()
 const save = ref(null)
 const plusIcon = ref(true)
 
 const userName = ref('')
 const userAge = ref('')
-const childName = ref([''])
-const childAge = ref([''])
+const childName = ref([])
+const childAge = ref([])
 const addChildren = ref(false)
-const usersData = ref([])
 const noUserData = ref(false)
 
-const temporaryUsersData = reactive([])
+let usersData = reactive({
+  userName: userName,
+  userAge: userAge,
+  children: []
+})
 
-const emits = defineEmits('usersData', usersData)
-
-let idx = 1
+let idx = ref(0)
 const addItem = () => {
-  if (!userName.value || !userAge.value) {
+  // if (!userName.value || !userAge.value) {
+  if (false) {
     noUserData.value = true
-
-    setTimeout(() => {
-      noUserData.value = false
-    }, 3000)
-  }
-
-  if (userName.value && userAge.value) {
+    setTimeout(() => { noUserData.value = false }, 3000)
+  } else {
     addChildren.value = true
 
-    if (addChildren && idx <= 5) {
-      temporaryUsersData.push({
-        id: idx,
-        user: {
-          userName: userName.value,
-          userAge: userAge.value,
-        },
-        children: {
-          childName: childName.value,
-          childAge: childAge.value,
-        }
+    if (addChildren && idx.value <= 5) {
+      usersData.children.push({
+        id: idx.value + 1,
+        childName: childName.value,
+        childAge: childAge.value,
       })
 
-      idx++
+      idx.value++
     }
 
-    if (idx === 6) {
+    if (idx.value === 5) {
       plusIcon.value = false
       save.value.firstElementChild.focus()
     }
   }
 }
 const saveItem = () => {
-  usersData.value = [...temporaryUsersData]
-  emits('usersData', usersData.value)
+  store.usersData = usersData
 }
 const deleteItem = el => {
-  temporaryUsersData.splice(el, 1)
+  usersData.children.splice(el, 1)
   childName.value.splice(el, 1)
   childAge.value.splice(el, 1)
-  idx--
+
+  idx.value--
+
   if (plusIcon.value === false) {
     plusIcon.value = true
   }
@@ -76,8 +70,8 @@ const deleteItem = el => {
 <template>
   <BaseCard title="Персональные данные">
     <BaseInput title="Имя" v-model.trim.capitalize="userName" />
-    <BaseInput title="Возраст" v-model="userAge" />
-    <p class="toast danger" v-if="noUserData">Заполните форму, пожалуйста</p>
+    <BaseInput v-model="userAge" title="Возраст" />
+    <p v-if="noUserData" class="toast danger">Заполните форму, пожалуйста</p>
   </BaseCard>
 
   <BaseCard>
@@ -87,10 +81,10 @@ const deleteItem = el => {
     </BaseRow>
 
     <BaseCard v-if="addChildren">
-      <BaseRow v-for="(userItem, idx) in temporaryUsersData" :key="userItem.id">
-        <BaseInput v-model.trim.lazy.capitalize="childName[idx]" title="Имя" />
-        <BaseInput v-model.lazy="childAge[idx]" title="Возраст" />
-        <ButtonDelete @click="deleteItem(idx)" />
+      <BaseRow v-for="(userItem, i) in idx" :key="userItem.id">
+        <BaseInput title="Имя" v-model.trim.lazy.capitalize="childName[i]" />
+        <BaseInput title="Возраст" v-model.lazy="childAge[i]" />
+        <ButtonDelete @click="deleteItem(i)" />
       </BaseRow>
 
       <div ref="save" class="button-save">
