@@ -9,7 +9,7 @@ const children = store.getChildren
 </script>
 
 <template>
-  <BaseCard v-if="!store.usersData.children.length">
+  <BaseCard v-if="!store.usersData.userName">
     <h3>Нет данных</h3>
     <router-link class="link inline" :to="{name: 'form'}">
       Вернуться к заполнению формы

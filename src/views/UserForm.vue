@@ -28,8 +28,7 @@ let usersData = reactive({
 
 let idx = ref(0)
 const addItem = () => {
-  // if (!userName.value || !userAge.value) {
-  if (false) {
+  if (!userName.value || !userAge.value) {
     noUserData.value = true
     setTimeout(() => { noUserData.value = false }, 3000)
   } else {
@@ -53,6 +52,7 @@ const addItem = () => {
 }
 const saveItem = () => {
   store.usersData = usersData
+  window.localStorage.setItem('user-info', JSON.stringify(usersData))
 }
 const deleteItem = el => {
   usersData.children.splice(el, 1)
